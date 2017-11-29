@@ -14,10 +14,8 @@ app.post('/todos' , (req, res) =>{
    });
   todo.save().then((doc)=>{
     res.send(doc);
-    console.log("Saved", doc );
   },(e) =>{
       res.status(400).send(e);
-    console.log("Error saving",e);
   })
 });
 
@@ -27,9 +25,9 @@ app.get('/todos' , (req, res) =>{
       res.send({todos});
     } , (e) => {
       res.status(400).send(e);
-    console.log("Error saving",e);      
-    })
-})
+    console.log("Error saving",e);
+  });
+});
 
 app.listen(3000,()=>{
   console.log("started on 3000");
