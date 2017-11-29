@@ -21,19 +21,8 @@ app.post('/todos' , (req, res) =>{
   })
 });
 
-
-
 app.listen(3000,()=>{
   console.log("started on 3000");
 });
-// var newTodo = new Todo({
-// text: 'again  Edit this vedio '
-// });
-//
-// newTodo.save().then((doc)=>{
-//   console.log('Save ... ' , doc);
-// }, (err) => {
-//
-//   console.log("Error to save");
-//
-// });
+
+module.exports = {app};
