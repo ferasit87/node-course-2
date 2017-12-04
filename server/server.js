@@ -45,6 +45,9 @@ app.get('/todos/:id', (req, res)=>{
     });
   });
 
+  app.get('/', (req, res)=>{
+      res.send('Working')
+    });
 
 app.listen(port,()=>{
   console.log(`Started up on ${port}`);
