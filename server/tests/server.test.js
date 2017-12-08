@@ -9,7 +9,9 @@ const todos = [{
   text : 'First test todo'
 },{
   _id : new ObjectID(),
-  text : 'Second test todo '
+  text : 'Second test todo ',
+  completed: true,
+  completedAt: 333
 }]
 beforeEach((done) =>{
   Todo.remove({}).then(()=> {
@@ -127,9 +129,46 @@ describe ('DELETE /todos/:id ', ()=>{
 
       Todo.findById(todos[0]._id.toHexString()).then((todo) =>{
         console.log(todo);
-        expect(todo).toNotExist();
+        expect(todo).toExist();
         done();
       }).catch((e) => done(e))
+
+    });
+
+
+})
+
+
+describe ('update /todos/:id ', ()=>{
+    it('Should return 404',(done)=>{
+      request(app)
+      .delete('/todos/7985794')
+      .expect(404)
+      .end(done);
+    });
+
+    it('Should return 404',(done)=>{
+      var id = new ObjectID() ;
+      request(app)
+      .delete(`/todos/${id.toHexString()}`)
+      .expect(404)
+      .end(done);
+    });
+
+    it('Should return todo doc',(done)=>{
+      var body = {text : "Changed to do" , complete : true}
+      request(app)
+      .patch(`/todos/${todos[0]._id.toHexString() }`)
+      .send(body)
+      .expect(200)
+      .expect((res) => {
+        console.log(res.body.todo);
+        expect(res.body.todo.text).toBe(body.text);
+        expect(res.body.todo.complete).toBe(true);
+        expect(res.body.todo.completeAt).not.toBeNull();
+        done();
+      }).catch((e) => done(e)) ;
+
 
     });
 
