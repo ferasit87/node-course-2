@@ -156,7 +156,7 @@ describe ('update /todos/:id ', ()=>{
     });
 
     it('Should return todo doc',(done)=>{
-      var body = {text : "Changed to do" , complete : true}
+      var body = {text : "Changed to do" , completed : true}
       request(app)
       .patch(`/todos/${todos[0]._id.toHexString() }`)
       .send(body)
@@ -164,8 +164,8 @@ describe ('update /todos/:id ', ()=>{
       .expect((res) => {
         console.log(res.body.todo);
         expect(res.body.todo.text).toBe(body.text);
-        expect(res.body.todo.complete).toBe(true);
-        expect(res.body.todo.completeAt).not.toBeNull();
+        expect(res.body.todo.completed).toBe(true);
+        expect(res.body.todo.completedAt).toBeA('number');
         done();
       }).catch((e) => done(e)) ;
 
