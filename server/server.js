@@ -7,6 +7,7 @@ const {ObjectID} = require('mongodb');
 var {mongoose} = require('./db/mongoose.js');
 var {Todo} =  require('./models/todo.js');
 var {User} =  require('./models/user.js');
+var {authenticate} =  require('./middleware/authenticate.js');
 
 
 var app = express();
@@ -99,6 +100,10 @@ app.patch('/todos/:id', ((req,res) => {
 
 // Users REQUESTS
 
+
+app.get('/users/me', authenticate,(req, res ) =>{
+  res.send(req.user);
+});
 app.post('/users', (req, res) => {
   var user = new User({
    email: req.body.email,
@@ -108,7 +113,7 @@ app.post('/users', (req, res) => {
      return user.generateAuthToken();
    }).then((token) => {
      res.header('x-auth', token).send(user);
-   }).catch((e) => {     
+   }).catch((e) => {
      res.status(400).send(e);
    })
 
